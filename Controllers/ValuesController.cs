@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace PlantAI.Controllers
 {
@@ -7,5 +6,10 @@ namespace PlantAI.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult GetAction()
+        {
+            return Ok("All okay");
+        }
     }
 }
