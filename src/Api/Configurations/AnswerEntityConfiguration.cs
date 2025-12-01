@@ -20,11 +20,6 @@ namespace PlantAI.Configurations
             modelBuilder.Property(e => e.SensorId).HasColumnName("Sensor_id");
             modelBuilder.Property(e => e.StatisticId).HasColumnName("Statistic_id");
 
-            modelBuilder.HasOne(d => d.Sensor).WithMany(p => p.Answers)
-                .HasForeignKey(d => d.SensorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("answers_sensor_id_foreign");
-
             modelBuilder.HasOne(d => d.Statistic).WithMany(p => p.Answers)
                 .HasForeignKey(d => d.StatisticId)
                 .HasConstraintName("answers_statistic_id_foreign");

@@ -12,15 +12,15 @@ namespace PlantAI.Configurations
 
             builder.ToTable("Sensors_Data");
 
-            builder.HasIndex(e => e.TypeId, "Sensors_Data_Type_id_idx");
+            builder.HasIndex(e => e.SensorTypeId, "Sensors_Data_Type_id_idx");
 
             builder.Property(e => e.Id).HasColumnName("id");
             builder.Property(e => e.Data).HasColumnType("json");
             builder.Property(e => e.Date).HasColumnType("timestamp without time zone");
-            builder.Property(e => e.TypeId).HasColumnName("Type_id");
+            builder.Property(e => e.SensorTypeId).HasColumnName("Type_id");
 
             builder.HasOne(d => d.Type).WithMany(p => p.SensorsData)
-                .HasForeignKey(d => d.TypeId)
+                .HasForeignKey(d => d.SensorTypeId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("sensors_data_type_id_foreign");
         }
