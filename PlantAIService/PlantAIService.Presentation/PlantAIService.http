@@ -1,0 +1,6 @@
+@PlantAIService_HostAddress = http://localhost:5206
+
+GET {{PlantAIService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

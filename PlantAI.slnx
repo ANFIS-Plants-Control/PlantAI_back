@@ -1,0 +1,26 @@
+<Solution>
+  <Folder Name="/AuthService/">
+    <Project Path="AuthService/Application/Application.csproj" />
+    <Project Path="AuthService/Core/Core.csproj" />
+    <Project Path="AuthService/Infrastructure/Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/AuthService/AuthService.Presentation/">
+    <Project Path="AuthService/AuthService.Presentation/AuthService.csproj" />
+  </Folder>
+  <Folder Name="/PlantAIService/">
+    <Project Path="PlantAIService/Application/Application.csproj" />
+    <Project Path="PlantAIService/Core/Core.csproj" />
+    <Project Path="PlantAIService/Infrastructure/Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/PlantAIService/PlantAIService.Presentation/">
+    <Project Path="PlantAIService/PlantAIService.Presentation/PlantAIService.csproj" />
+  </Folder>
+  <Folder Name="/TelemetryService/">
+    <Project Path="TelemetryService/Application/Application.csproj" />
+    <Project Path="TelemetryService/Core/Core.csproj" />
+    <Project Path="TelemetryService/Infrastructure/Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/TelemetryService/TelemetryService.Presentation/">
+    <Project Path="TelemetryService/TelemetryService.Presentation/TelemetryService.csproj" />
+  </Folder>
+</Solution>
