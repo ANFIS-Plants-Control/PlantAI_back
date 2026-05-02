@@ -1,6 +1,4 @@
-using System.Reflection.Metadata;
-
-namespace TelemetryService.Core.Models;
+namespace Core.Models;
 
 public class SensorType
 {
