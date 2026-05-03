@@ -1,5 +1,4 @@
 ﻿using Application.DTOs.UserDTO;
-using AuthService.Core.Models;
 
 namespace Application.Interfaces.Services
 {
@@ -8,6 +7,7 @@ namespace Application.Interfaces.Services
 
         public Task<UserResponseDto> CreateUserAsync(CreateUserDto dto);
         public Task<UserResponseDto> GetUserByLoginAsync(string Login);
+        public Task<UserResponseDto> GetUserByIdAsync(int Id);
 
     }
 }

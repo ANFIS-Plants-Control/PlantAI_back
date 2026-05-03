@@ -22,9 +22,20 @@ namespace Application.Services
             {
                 throw new Exception($"User with login {dto.Login} already exists");
             }
-            User user = User.Create(dto.Login, dto.RoleId, dto.PasswordHash);
+            
+            PasswordHasher hasher = new PasswordHasher();
+            string passwordHash = hasher.GenerateHashPassword(dto.Password);
+
+            User user = User.Create(dto.Login, dto.RoleId, passwordHash);
             var newUser = await _repository.CreateUserAsync(user);
             UserResponseDto response = newUser.EntityToResponseDto();
+            return response;
+        }
+
+        public async Task<UserResponseDto> GetUserByIdAsync(int Id)
+        {
+            var user = await _repository.GetUserByIdAsync(Id);
+            UserResponseDto response = user.EntityToResponseDto();
             return response;
         }
 

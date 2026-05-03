@@ -12,6 +12,7 @@ namespace Infrastructure.Extension.ModelExtensions
 
             builder.HasOne(x => x.UserRole)
                 .WithMany(x => x.Users)
+                .HasForeignKey(x => x.RoleId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
