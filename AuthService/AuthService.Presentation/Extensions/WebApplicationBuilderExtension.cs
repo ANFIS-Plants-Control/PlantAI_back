@@ -2,7 +2,6 @@
 using Application.Interfaces.Services;
 using Application.Services;
 using AuthService.Infrastructure.Persistant;
-using AuthService.Utils;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +15,11 @@ namespace AuthService.Extensions
 
         public static void ImplementServices(this WebApplicationBuilder builder)
         {
-            string secretKey = AppsettingsReader.GetString("SecretKey");
+            builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
+            string secretKey = builder.Configuration["secretKey"];
+            string connectionString = builder.Configuration["AuthDbConnectionString"];
+            Console.WriteLine(secretKey);
+            Console.WriteLine(connectionString);
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -34,7 +37,7 @@ namespace AuthService.Extensions
 
             builder.Services.AddOpenApi();
 
-            builder.Services.AddDbContext<AuthDbContext>(c => c.UseNpgsql(builder.Configuration.GetConnectionString("AuthDbConnectionString")));
+            builder.Services.AddDbContext<AuthDbContext>(c => c.UseNpgsql(connectionString));
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IUserService, UserService>();
