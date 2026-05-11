@@ -12,7 +12,6 @@ namespace AuthService.Utils
                 .AddJsonFile("appsettings.json")
                 .Build();
             var secretKey = configuration[key];
-            Console.WriteLine(secretKey);
             return secretKey.ToString();
         }
     }

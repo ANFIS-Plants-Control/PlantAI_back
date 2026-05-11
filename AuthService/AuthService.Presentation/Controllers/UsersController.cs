@@ -47,8 +47,8 @@ namespace AuthService.Controllers
             }
         }
 
-        [HttpGet("get_token")]
-        public async Task<IActionResult> GetTokenAsync(SignInUserDto dto)
+        [HttpPost("get_token")]
+        public async Task<IActionResult> GetTokenAsync([FromBody]SignInUserDto dto)
         {
             try 
             {

@@ -15,6 +15,20 @@ namespace AuthService.Extensions
 
         public static void ImplementServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddCors(options =>
+            {
+                const string corsName = "PlantAI_Front";
+
+                options.AddPolicy(
+                    name: corsName,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
             string secretKey = builder.Configuration["secretKey"];
 #if RELEASE
@@ -35,6 +49,8 @@ namespace AuthService.Extensions
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            builder.Services.AddScoped<ProjectOptions>(po => { return new ProjectOptions(connectionString, secretKey); });
 
             builder.Services.AddControllers();
 

@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ImplementServices();
 
 var app = builder.Build();
+const string corsName = "PlantAI_Front";
+app.UseCors(corsName);
+
 #if DEBUG
 var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
