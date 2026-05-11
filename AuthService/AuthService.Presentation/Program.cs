@@ -1,4 +1,6 @@
 using AuthService.Extensions;
+using AuthService.Infrastructure.Persistant;
+using Microsoft.EntityFrameworkCore;
 
 Console.WriteLine("Starting initializing the app");
 
@@ -7,6 +9,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ImplementServices();
 
 var app = builder.Build();
+#if DEBUG
+var scope = app.Services.CreateScope();
+var dbContext = scope.ServiceProvider.GetRequiredService<AuthDbContext>();
+dbContext.Database.Migrate();
+#endif
 
 if (app.Environment.IsDevelopment())
 {

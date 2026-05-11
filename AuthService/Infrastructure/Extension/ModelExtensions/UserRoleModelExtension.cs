@@ -9,6 +9,12 @@ namespace Infrastructure.Extension.ModelExtensions
         public void Configure(EntityTypeBuilder<UserRole> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasData([
+                new UserRole {Id = 1, RoleName = "Admin" },
+                new UserRole {Id = 2, RoleName = "Manager" },
+                new UserRole {Id = 3, RoleName = "Agronomist" }
+            ]);
         }
     }
 }

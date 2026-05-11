@@ -17,7 +17,12 @@ namespace AuthService.Extensions
         {
             builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
             string secretKey = builder.Configuration["secretKey"];
-            string connectionString = builder.Configuration["AuthDbConnectionString"];
+#if RELEASE
+            string dbPassword = builder.Configuration["AuthDbPassword"];
+            string connectionString = builder.Configuration["AuthDbConnectionString"]+$"Password={dbPassword}";
+#else
+            string connectionString = builder.Configuration.GetConnectionString("devConnection");
+#endif
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
