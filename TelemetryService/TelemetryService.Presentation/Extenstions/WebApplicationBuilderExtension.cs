@@ -1,4 +1,4 @@
-﻿using Infrastructure.MQTTOptions;
+using Infrastructure.MQTTOptions;
 using Infrastructure.MQTTSubscriber;
 using Microsoft.EntityFrameworkCore;
 using TelemetryService.Infrastructure.Persistant;
