@@ -3,8 +3,8 @@
     public class DataGroup
     {
 
-        public int Id { get; set; }
-        public DateTime GroupDate { get; set; }
-
+        public int Id { get; init; }
+        public DateTime GroupDate { get; init; }
+        public IEnumerable<SensorData> SensorsData { get; init; }
     }
 }

@@ -8,7 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Interfaces\Services\" />
     <Folder Include="Utils\Mapping\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
 </Project>

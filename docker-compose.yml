@@ -1,17 +1,42 @@
 services:
-  plant_ai_back:
-    image: plant-ai-back:latest
-    ports:
-      - "8080:8080"
-    secrets:
-      - AuthDbConnectionString
-      - SecretKey
   db:
-    image: plant-ai-auth:latest
+    image: postgres:latest
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/DbPassword
     ports:
-      - "5432:5432"
+      - target: 5432
+        published: 5432
+        protocol: tcp
+        mode: host
+    secrets:
+      - DbPassword
+  # auth:
+  #   image: plant-ai-auth:latest
+  #   ports:
+  #     - "8080:8080"
+  #   secrets:
+  #     - AuthDbConnectionString
+  #     - SecretKey
+  #     - DbPassword
+  broker:
+    image: broker:latest
+    ports:
+      - "1883:1883"
+
+  telemetry:
+    image: plant-ai-telemetry:latest
+    ports:
+      - "8081:8080"
+    secrets:
+      - DbPassword
+      - TelemetryDbConnectionString
+
 secrets:
   SecretKey:
     external: true
+  DbPassword:
+    external: true
   AuthDbConnectionString:
+    external: true
+  TelemetryDbConnectionString:
     external: true

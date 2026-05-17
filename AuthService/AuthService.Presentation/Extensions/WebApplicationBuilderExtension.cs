@@ -32,7 +32,7 @@ namespace AuthService.Extensions
             builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
             string secretKey = builder.Configuration["secretKey"];
 #if RELEASE
-            string dbPassword = builder.Configuration["AuthDbPassword"];
+            string dbPassword = builder.Configuration["DbPassword"];
             string connectionString = builder.Configuration["AuthDbConnectionString"]+$"Password={dbPassword}";
 #else
             string connectionString = builder.Configuration.GetConnectionString("devConnection");
