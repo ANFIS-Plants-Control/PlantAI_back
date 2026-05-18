@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using MQTTnet;
 using System.Text;
+using Options = Infrastructure.MQTTOptions;
 
 namespace Infrastructure.MQTTSubscriber
 {
@@ -8,19 +9,19 @@ namespace Infrastructure.MQTTSubscriber
     {
         public string Host = "plantai_broker";
         public int Port = 1883;
-        public string ClientId ="SubscriberClient";
+        public string ClientId = "SubscriberClient";
         public string Topic = "test/topic";
 
         private IMqttClient client;
         private MqttClientOptions options;
 
         public MQTTSubscriber() { }
-        public MQTTSubscriber(string host, int port, string clientId, string topic)
+        public MQTTSubscriber(Options.MQTTOptions options)
         {
-            Host = host;
-            Port = port;
-            ClientId = clientId;
-            Topic = topic;
+            Host = options.Host;
+            Port = options.Port;
+            ClientId = options.ClientId;
+            Topic = options.Topic;
         }
 
         public void CreateSubscriber()
