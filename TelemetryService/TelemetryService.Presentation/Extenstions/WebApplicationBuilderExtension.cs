@@ -1,4 +1,5 @@
-﻿using Infrastructure.MQTTSubscriber;
+using Infrastructure.MQTTOptions;
+using Infrastructure.MQTTSubscriber;
 using Microsoft.EntityFrameworkCore;
 using TelemetryService.Infrastructure.Persistant;
 
@@ -18,7 +19,8 @@ namespace TelemetryService.Extenstions
             builder.Services.AddOpenApi();
             builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddHostedService<MQTTSubscriber>();
+            MQTTOptions mQTTOptions = builder.Configuration.GetValue<MQTTOptions>("MQTTOptions");
+            builder.Services.AddHostedService<MQTTSubscriber>(s => new MQTTSubscriber(mQTTOptions));
 
             builder.Services.AddDbContext<TelemetryDbContext>(cnt => cnt.UseNpgsql(connectionStrign));
         }

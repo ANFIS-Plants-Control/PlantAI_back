@@ -8,5 +8,4 @@ public class SensorData
     public int SensorTypeId { get; init; }
     public int GroupId { get; init; }
     public SensorType? SensorType { get; init; }
-    public DataGroup DataGroup { get; init; }
 }
