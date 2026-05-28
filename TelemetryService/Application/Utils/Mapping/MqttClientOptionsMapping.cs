@@ -14,7 +14,7 @@ namespace Application.Utils.Mapping
 
 
         public static ResponseMqttClientOptionsDto ToResponseDto(this MqttClientOptions entity) 
-            => new ResponseMqttClientOptionsDto (entity.Id, entity.ClientId, entity.Host, entity.Port, entity.Topic, entity.IsSubscribed);
+            => new ResponseMqttClientOptionsDto (entity.Id, entity.ClientId, entity.Host, entity.Port, entity.Topic);
 
         public static ConnectMqttClientDto ToConnectDto(this ResponseMqttClientOptionsDto dto)
             => new ConnectMqttClientDto(dto.ClientId, dto.Host, dto.Port);

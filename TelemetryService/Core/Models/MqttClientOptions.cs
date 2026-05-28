@@ -8,7 +8,6 @@
         public string Host { get; init;  }
         public int Port { get; init; }  
         public string Topic { get; init; }
-        public bool IsSubscribed { get; set; }
 
     }
 }

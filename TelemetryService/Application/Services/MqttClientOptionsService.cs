@@ -65,15 +65,5 @@ namespace Application.Services
             
             return subscribedClients;
         }
-
-        public async Task SetIsSubscribedClientAsync(string clientId, bool isSubscribed)
-        {
-            var client = await _repository.GetByClientIdAsync(clientId);
-            if (client == null) 
-                throw new Exception($"Client {clientId} does not exsit");
-
-            client.IsSubscribed = isSubscribed;
-            await _unitOfWork.SaveChangesAsync();
-        }
     }
 }

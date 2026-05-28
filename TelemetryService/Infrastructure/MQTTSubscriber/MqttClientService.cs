@@ -2,19 +2,15 @@
 using Application.Interfaces.Mqtt;
 using Infrastructure.MQTTSubscriber;
 using Core=Core.Models;
-using Application.Interfaces.Services;
-using System.IO.Pipes;
 
 namespace Infrastructure.Services
 {
     public class MqttClientService : IMqttClientService
     {
         private MqttClientCollector collector;
-        private IMqttClientOptionsService service;
-        public MqttClientService(MqttClientCollector collector, IMqttClientOptionsService service)
+        public MqttClientService(MqttClientCollector collector)
         {
             this.collector = collector;
-            this.service = service;
         }
 
         public async Task SyncClientsAsync(IEnumerable<Core::MqttClientOptions> options)
@@ -52,7 +48,6 @@ namespace Infrastructure.Services
         {
             var client = collector.GetClientById(clientId);
             await client.SubscribeAsync(topic);
-            await service.SetIsSubscribedClientAsync(clientId, true);
         }
 
         public IEnumerable<string> GetSubscribedClients()
