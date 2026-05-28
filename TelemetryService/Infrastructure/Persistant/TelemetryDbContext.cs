@@ -13,7 +13,7 @@ public class TelemetryDbContext : DbContext
 
     public TelemetryDbContext(DbContextOptions<TelemetryDbContext> options) : base(options)
     {
-        
+        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder builder){

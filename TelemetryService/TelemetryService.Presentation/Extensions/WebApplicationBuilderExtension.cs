@@ -16,6 +16,20 @@ namespace TelemetryService.Extenstions
 
         public static void ImplementServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddCors(options =>
+            {
+                const string corsName = "PlantAI_Front";
+
+                options.AddPolicy(
+                    name: corsName,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
 #if DEBUG
             string connectionStrign = builder.Configuration.GetConnectionString("devConnection");
 #else
