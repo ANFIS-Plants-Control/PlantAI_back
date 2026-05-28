@@ -12,12 +12,12 @@ namespace Infrastructure.Extensions
 
             builder.HasOne(x => x.SensorType)
                 .WithMany(x => x.SensorsData)
-                .HasForeignKey(x => x.SensorType)
+                .HasForeignKey(x => x.SensorTypeId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(x => x.DataGroup)
                 .WithMany(x => x.SensorsData)
-                .HasForeignKey(x => x.DataGroup)
+                .HasForeignKey(x => x.GroupId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
