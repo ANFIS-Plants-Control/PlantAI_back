@@ -1,6 +1,6 @@
-﻿using Application.DTOs.MqttClientOptions;
+﻿using Application.DTOs.MQTT.Clients;
+using Application.DTOs.MQTT.Subscriptions;
 using Application.Interfaces.Mqtt;
-using Application.Utils.Mapping;
 
 namespace Application.Handlers
 {
@@ -13,20 +13,19 @@ namespace Application.Handlers
             _service = service;
         }
 
-        public void SyncClientAsync(IEnumerable<ResponseMqttClientOptionsDto> options)
+        public async Task SyncClientAsync()
         {
-            var otionsEntities = options.Select(x => x.ToEntity());
-            _service.SyncClientsAsync(otionsEntities);
+            await _service.SyncClientsAsync();
         }
 
         public async Task ConnectClientAsync(ConnectMqttClientDto dto)
         {
-            await _service.ConnectClientAsync(dto.ClientId, dto.Host, dto.Port);
+            await _service.ConnectClientAsync(dto.clientId, dto.host, dto.port);
         }
 
         public async Task SybscribeClientAsync(SubscribeMqttClientDto dto)
         {
-            await _service.SubscribeAsync(dto.ClientId, dto.Topic);
+            await _service.SubscribeAsync(dto.clientId, dto.topic);
         }
         public IEnumerable<string> GetSubscribedClients()
         {

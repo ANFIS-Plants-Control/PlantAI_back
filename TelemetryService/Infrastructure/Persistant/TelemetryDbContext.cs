@@ -1,6 +1,7 @@
 
 using Core.Models;
-using Infrastructure.Extensions;
+using Core.Models.mqtt;
+using Infrastructure.Extensions.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace TelemetryService.Infrastructure.Persistant;
@@ -9,11 +10,13 @@ public class TelemetryDbContext : DbContext
 
     public DbSet<SensorData> SensorsData { get; set; }
     public DbSet<DataGroup> DataGroups { get; set; }
-    public DbSet<MqttClientOptions> MqttClientOptions { get; set; }
+    public DbSet<MqttClient> MqttClients { get; set; }
+    public DbSet<BrokerParpameters> BrokerParpameters { get; set; }
+    public DbSet<TopicDefinition> TopicDefinitions { get; set; }
 
     public TelemetryDbContext(DbContextOptions<TelemetryDbContext> options) : base(options)
     {
-        Database.EnsureCreated();
+
     }
 
     protected override void OnModelCreating(ModelBuilder builder){
@@ -22,6 +25,8 @@ public class TelemetryDbContext : DbContext
         builder.ApplyConfiguration(new SensorDataEntityConfituration());
         builder.ApplyConfiguration(new DataGroupEntityConfiguration());
         builder.ApplyConfiguration(new SensorTypeEntityConfiguration());
-        builder.ApplyConfiguration(new MqttClientOptionsEntityConfiguration());
+        builder.ApplyConfiguration(new MqttClientsEntityConfiguration());
+        builder.ApplyConfiguration(new TopicDefinitionEntityConfiguration());
+        builder.ApplyConfiguration(new BrokerParametersEntityConfiguration());
     }
 }

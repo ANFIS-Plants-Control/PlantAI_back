@@ -23,7 +23,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-#if RELEASE
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -34,6 +33,5 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
-#endif
 
 app.Run();

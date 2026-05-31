@@ -46,11 +46,15 @@ namespace TelemetryService.Extenstions
             builder.Services.AddDbContext<TelemetryDbContext>(cnt => cnt.UseNpgsql(connectionStrign));
 
             builder.Services.AddSingleton<MqttClientCollector>();
-            builder.Services.AddScoped<IMqttClientService,  MqttClientService>();
             builder.Services.AddScoped<MqttClientHandler>();
 
-            builder.Services.AddScoped<IMqttClientOptionsRepository, MqttClientOptionsRepository>();
-            builder.Services.AddScoped<IMqttClientOptionsService, MqttClientOptionsService>();
+            builder.Services.AddScoped<IBrokersParametersRepository, BrokerParamtersRepository>();
+            builder.Services.AddScoped<IBrokerParametersService, BrokerParametersService>();
+            builder.Services.AddScoped<ITopicRepository, TopicRepository>();
+            builder.Services.AddScoped<ITopicService, TopicService>();
+            builder.Services.AddScoped<IMqttClientsRepository, MqttClientsRepository>();
+            builder.Services.AddScoped<IMqttClientsService, MqttClientsService>();
+            builder.Services.AddScoped<IMqttClientService, MqttClientConnectionService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

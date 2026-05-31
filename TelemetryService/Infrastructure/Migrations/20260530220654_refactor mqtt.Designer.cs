@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelemetryService.Infrastructure.Persistant;
@@ -11,9 +12,11 @@ using TelemetryService.Infrastructure.Persistant;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TelemetryDbContext))]
-    partial class TelemetryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260530220654_refactor mqtt")]
+    partial class refactormqtt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,9 +116,6 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Host", "Port")
-                        .IsUnique();
-
                     b.ToTable("BrokerParpameters");
                 });
 
@@ -143,7 +143,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("MqttClients");
+                    b.ToTable("MqttSubscription");
                 });
 
             modelBuilder.Entity("Core.Models.mqtt.TopicDefinition", b =>

@@ -1,4 +1,4 @@
-﻿using Core.Models;
+﻿using Core.Models.mqtt;
 
 namespace Application.Interfaces.Mqtt
 {
@@ -7,7 +7,7 @@ namespace Application.Interfaces.Mqtt
 
         public Task ConnectClientAsync(string clientId, string host, int port);
         public Task SubscribeAsync(string topic, string clientId);
-        public Task SyncClientsAsync(IEnumerable<MqttClientOptions> options);
+        public Task SyncClientsAsync();
         public IEnumerable<string> GetSubscribedClients();
     }
 }
