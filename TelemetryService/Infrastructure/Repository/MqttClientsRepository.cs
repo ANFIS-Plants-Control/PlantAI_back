@@ -1,5 +1,4 @@
-﻿using Application.DTOs.MQTT;
-using Application.Interfaces.Repositories;
+﻿using Application.Interfaces.Repositories;
 using Core.Models.mqtt;
 using Microsoft.EntityFrameworkCore;
 using TelemetryService.Infrastructure.Persistant;
