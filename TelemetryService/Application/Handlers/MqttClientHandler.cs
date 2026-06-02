@@ -25,11 +25,11 @@ namespace Application.Handlers
 
         public async Task SybscribeClientAsync(SubscribeMqttClientDto dto)
         {
-            await _service.SubscribeAsync(dto.clientId, dto.topic);
+            await _service.SubscribeAsync(dto.clientId, dto.topicId);
         }
-        public IEnumerable<string> GetSubscribedClients()
+        public Task<IEnumerable<string>> GetSubscribedClients()
         {
-            return _service.GetSubscribedClients();
+            return Task.FromResult(_service.GetSubscribedClients());
         }
     }
 }

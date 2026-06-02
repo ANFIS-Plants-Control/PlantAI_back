@@ -10,10 +10,12 @@ namespace Infrastructure.Services
     {
         private MqttClientCollector collector;
         private readonly IMqttClientsRepository _repository;
-        public MqttClientConnectionService(MqttClientCollector collector, IMqttClientsRepository repository)
+        private readonly ITopicRepository _topicRepository;
+        public MqttClientConnectionService(MqttClientCollector collector, IMqttClientsRepository repository, ITopicRepository topicRepository)
         {
             this.collector = collector;
             _repository = repository;
+            _topicRepository = topicRepository;
         }
 
         public async Task SyncClientsAsync()
@@ -52,10 +54,14 @@ namespace Infrastructure.Services
                 throw new Exception($"Broker on {host}:{port} not avialable");
             }
         }
-        public async Task SubscribeAsync(string clientId, string topic)
+        public async Task SubscribeAsync(string clientId, int topicId)
         {
+            var topic = await _topicRepository.GetByIdAsync(topicId);
+            if (topic == null)
+                throw new Exception($"Topic with id {topicId} is not exists");
+            
             var client = collector.GetClientById(clientId);
-            await client.SubscribeAsync(topic);
+            await client.SubscribeAsync(topic.Topic);
         }
 
         public IEnumerable<string> GetSubscribedClients()

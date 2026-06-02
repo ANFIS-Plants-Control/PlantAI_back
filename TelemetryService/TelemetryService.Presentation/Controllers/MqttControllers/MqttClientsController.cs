@@ -1,4 +1,5 @@
-﻿using Application.DTOs.MQTT.Subscriptions;
+﻿using Application.DTOs.MQTT.Clients;
+using Application.DTOs.MQTT.Subscriptions;
 using Application.Handlers;
 using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -65,6 +66,34 @@ namespace TelemetryService.Controllers.MqttControllers
                 return StatusCode(500, e.Message);
             }
 
+        }
+
+        [HttpPost("subscribe")]
+        public async Task<IActionResult> Subscribe(SubscribeMqttClientDto dto)
+        {
+            try
+            {
+                await _clientHandler.SybscribeClientAsync(dto);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("subscribed")]
+        public async Task<IActionResult> GetSubscribed()
+        {
+            try
+            {
+                var clients = await _clientHandler.GetSubscribedClients();
+                return Ok(clients);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
