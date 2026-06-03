@@ -20,10 +20,9 @@ namespace Application.Services
             return response;
         }
 
-        public async Task WriteAsync(CreateSensorDataDto dto)
+        public async Task SaveAsync(IEnumerable<CreateSensorDataDto> dto, int groupId)
         {
-            var entity = dto.ToEntity();
-            await _repository.WrightAsync(entity);
+            await _repository.SaveAsync(dto.Select(x => x.ToEntity(groupId)));
         }
     }
 }

@@ -2,11 +2,10 @@ namespace Core.Models;
 
 public class SensorData
 {
-    public int Id { get; init; }
-    public double Value { get; init; }
-    public DateTime Date { get; init; }
-    public int SensorTypeId { get; init; }
-    public int GroupId { get; init; }
-    public SensorType SensorType { get; init; }
-    public DataGroup DataGroup { get; init; }
+    public int Id { get; set; }
+    public double Value { get; set; }
+    public int SensorTypeId { get; set; }
+    public int GroupId { get; set; }
+    public SensorType SensorType { get; set; }
+    public DataGroup DataGroup { get; set; }
 }

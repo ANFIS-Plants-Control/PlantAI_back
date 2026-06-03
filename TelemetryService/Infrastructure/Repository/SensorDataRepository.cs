@@ -19,9 +19,16 @@ namespace Infrastructure.Repository
             .ToListAsync();
 
 
-        public async Task WrightAsync(SensorData data)
+        public async Task SaveAsync(SensorData data)
         {
-            await _context.AddAsync(data);
+            await _context.SensorsData.AddAsync(data);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task SaveAsync(IEnumerable<SensorData> data)
+        {
+            await _context.SensorsData.AddRangeAsync(data);
+            await _context.SaveChangesAsync();
         }
     }
 }

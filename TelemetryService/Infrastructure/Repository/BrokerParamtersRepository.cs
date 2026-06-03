@@ -15,19 +15,20 @@ namespace Infrastructure.Repository
 
         public async Task CreateAsync(BrokerParpameters entity)
         {
-            await _dbContext.BrokerParpameters.AddAsync(entity);
+            await _dbContext.BrokerParameters
+                .AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<BrokerParpameters>> GetAllAsync()
         {
-            return await _dbContext.BrokerParpameters
+            return await _dbContext.BrokerParameters
                 .AsNoTracking()
                 .ToListAsync();
         }
         public async Task<BrokerParpameters> GetByAddressAsync(string host, int port)
         {
-            return await _dbContext.BrokerParpameters
+            return await _dbContext.BrokerParameters
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Host == host && x.Port == port);
         }

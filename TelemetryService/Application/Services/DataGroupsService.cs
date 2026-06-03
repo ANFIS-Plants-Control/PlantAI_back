@@ -1,0 +1,25 @@
+﻿using Application.DTOs.DataGroup;
+using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Application.Utils.Mapping;
+using Core.Models;
+
+namespace Application.Services
+{
+    public class DataGroupsService : IDataGroupService
+    {
+        private readonly IDataGroupRepository _repository;
+        public DataGroupsService(IDataGroupRepository repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<ResponseDataGroupDto> SaveAsync(int MqttClientId)
+        {
+            DataGroup data = new DataGroup { GroupDate  = DateTime.UtcNow, MqttClientId = MqttClientId };
+            await _repository.SaveAsync(data);
+            var entity = await _repository.GetLastGroupAsync();
+            return entity.ToResponse();
+        }
+    }
+}

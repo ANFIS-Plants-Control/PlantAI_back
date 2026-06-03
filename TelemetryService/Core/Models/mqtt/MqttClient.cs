@@ -9,5 +9,6 @@
         public DateTime LastMessageDateTime { get; set; }
         public TopicDefinition Topic { get; set; }
         public BrokerParpameters Broker { get; set; }
+        public IEnumerable<DataGroup> DataGroups { get; set; }
     }
 }

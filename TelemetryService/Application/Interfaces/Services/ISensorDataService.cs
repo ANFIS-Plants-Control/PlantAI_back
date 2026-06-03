@@ -6,6 +6,6 @@ namespace Application.Interfaces.Services
     public interface ISensorDataService
     {
         public Task<IEnumerable<SensorDataResponseDto>> ReadAllAsync();
-        public Task WriteAsync(CreateSensorDataDto dto);
+        public Task SaveAsync(IEnumerable<CreateSensorDataDto> dto, int groupId);
     }
 }
