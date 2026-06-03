@@ -7,7 +7,6 @@ using MQTTnet;
 using System.Text;
 using System.Text.Json;
 using TelemetryService.Application.DTOs.SensorData;
-using TelemetryService.Infrastructure.Persistant;
 
 namespace Infrastructure.MQTTSubscriber
 {

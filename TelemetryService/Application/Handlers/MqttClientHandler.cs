@@ -25,7 +25,7 @@ namespace Application.Handlers
 
         public async Task SybscribeClientAsync(SubscribeMqttClientDto dto)
         {
-            await _service.SubscribeAsync(dto.clientId, dto.topicId);
+            await _service.SubscribeAsync(dto.clientId);
         }
         public Task<IEnumerable<string>> GetSubscribedClients()
         {

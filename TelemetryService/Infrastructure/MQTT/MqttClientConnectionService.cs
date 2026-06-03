@@ -54,14 +54,18 @@ namespace Infrastructure.Services
                 throw new Exception($"Broker on {host}:{port} not avialable");
             }
         }
-        public async Task SubscribeAsync(string clientId, int topicId)
+        public async Task SubscribeAsync(string clientId)
         {
-            var topic = await _topicRepository.GetByIdAsync(topicId);
+            var client = await _repository.GetByClientIdAsync(clientId);
+            if (client == null)
+                throw new Exception($"Client {clientId} does not exists");
+
+            var topic = await _topicRepository.GetByIdAsync(client.TopicId);
             if (topic == null)
-                throw new Exception($"Topic with id {topicId} is not exists");
+                throw new Exception($"Topic with id {client.TopicId} is not exists");
             
-            var client = collector.GetClientById(clientId);
-            await client.SubscribeAsync(topic.Topic);
+            var collectedClient = collector.GetClientById(clientId);
+            await collectedClient.SubscribeAsync(topic.Topic);
         }
 
         public IEnumerable<string> GetSubscribedClients()
