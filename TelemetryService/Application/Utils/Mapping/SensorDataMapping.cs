@@ -9,16 +9,14 @@ namespace Application.Utils.Mapping
         public static SensorDataResponseDto ToResponseDto(this SensorData data)
             => new SensorDataResponseDto(data.Id,
                                       data.Value,
-                                       data.Date,
                                data.SensorTypeId);
 
-        public static SensorData ToEntity(this CreateSensorDataDto dto) =>
+        public static SensorData ToEntity(this CreateSensorDataDto dto, int goupId) =>
             new SensorData()
             {
                 Value = dto.Value,
-                Date = dto.Date,
                 SensorTypeId = dto.SensorTypeId,
-                GroupId = dto.GroupId
+                GroupId = goupId
             };
     }
 }

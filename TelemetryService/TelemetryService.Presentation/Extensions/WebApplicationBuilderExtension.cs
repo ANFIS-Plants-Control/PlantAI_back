@@ -48,6 +48,10 @@ namespace TelemetryService.Extenstions
             builder.Services.AddSingleton<MqttClientCollector>();
             builder.Services.AddScoped<MqttClientHandler>();
 
+            builder.Services.AddScoped<ISensorDataRepository,  SensorDataRepository>();
+            builder.Services.AddScoped<ISensorDataService, SensorDataService>();
+            builder.Services.AddScoped<IDataGroupRepository, DataGroupRepository>();
+            builder.Services.AddScoped<IDataGroupService, DataGroupsService>();
             builder.Services.AddScoped<IBrokersParametersRepository, BrokerParamtersRepository>();
             builder.Services.AddScoped<IBrokerParametersService, BrokerParametersService>();
             builder.Services.AddScoped<ITopicRepository, TopicRepository>();

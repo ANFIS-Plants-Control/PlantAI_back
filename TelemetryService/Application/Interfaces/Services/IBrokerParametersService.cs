@@ -7,5 +7,6 @@ namespace Application.Interfaces.Services
 
         public Task<ResponseBrokerParametersDto> CreateAsync(CreateBrokerParametersDto dto);
         public Task<ResponseBrokerParametersDto> GetByAddressAsync(CreateBrokerParametersDto dto);
+        public Task<IEnumerable<ResponseBrokerParametersDto>> GetAllAsync();
     }
 }

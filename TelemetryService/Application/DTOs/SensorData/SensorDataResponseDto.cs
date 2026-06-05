@@ -1,3 +1,3 @@
 namespace TelemetryService.Application.DTOs.SensorData;
 
-public record SensorDataResponseDto(int Id, double Value, DateTime Date, int SensorTypeId);
+public record SensorDataResponseDto(int Id, double Value, int SensorTypeId);

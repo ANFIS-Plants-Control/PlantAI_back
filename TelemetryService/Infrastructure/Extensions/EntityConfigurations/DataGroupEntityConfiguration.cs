@@ -9,6 +9,10 @@ namespace Infrastructure.Extensions.EntityConfigurations
         public void Configure(EntityTypeBuilder<DataGroup> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasOne(x => x.MqttClient)
+                .WithMany(x => x.DataGroups)
+                .HasForeignKey(x => x.MqttClientId);
         }
     }
 }

@@ -18,13 +18,6 @@ namespace TelemetryService.Controllers.MqttControllers
             _clientHandler = clientHandler;
         }
 
-        [HttpGet("dashboard")]
-        public async Task<IActionResult> GetDashboard()
-        {
-            var dashboard = await _clientService.GetMqttDashboardAsync();
-            return Ok(dashboard);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetMqttClients()
         {

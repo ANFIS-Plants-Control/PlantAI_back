@@ -36,7 +36,7 @@ namespace Infrastructure.Repository
 
         public async Task<IEnumerable<BrokerParpameters>> GetDashboardAsync()
         {
-            return await context.BrokerParpameters
+            return await context.BrokerParameters
                 .AsNoTracking()
                 .Include(x => x.Clients)
                     .ThenInclude(x => x.Topic)

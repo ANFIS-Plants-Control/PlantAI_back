@@ -1,6 +1,4 @@
-﻿using Application.DTOs;
-using Application.DTOs.MQTT.Clients;
-using Application.DTOs.MQTT.Subscriptions;
+﻿using Application.DTOs.MQTT.Subscriptions;
 using Application.Interfaces.Repositories;
 using Application.Interfaces.Services;
 using Application.Utils.Mapping;
@@ -33,11 +31,6 @@ namespace Application.Services
         {
             var clients = await _repository.GetAsync();
             return clients.Select(x => x.ToResponse());
-        }
-        public async Task<IEnumerable<ResponseMqttDashboardDto>> GetMqttDashboardAsync()
-        {
-            var dashboard = await _repository.GetDashboardAsync();
-            return dashboard.Select(x => x.ToDashboardResponse());
         }
     }
 }

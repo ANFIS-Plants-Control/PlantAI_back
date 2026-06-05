@@ -11,7 +11,7 @@ public class TelemetryDbContext : DbContext
     public DbSet<SensorData> SensorsData { get; set; }
     public DbSet<DataGroup> DataGroups { get; set; }
     public DbSet<MqttClient> MqttClients { get; set; }
-    public DbSet<BrokerParpameters> BrokerParpameters { get; set; }
+    public DbSet<BrokerParpameters> BrokerParameters { get; set; }
     public DbSet<TopicDefinition> TopicDefinitions { get; set; }
 
     public TelemetryDbContext(DbContextOptions<TelemetryDbContext> options) : base(options)

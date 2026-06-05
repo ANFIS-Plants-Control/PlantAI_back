@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelemetryService.Infrastructure.Persistant;
@@ -11,9 +12,11 @@ using TelemetryService.Infrastructure.Persistant;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TelemetryDbContext))]
-    partial class TelemetryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260602211736_rename table")]
+    partial class renametable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,15 +33,15 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("GroupDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("MqttClientId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("MqttClientId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("DataGroups");
                 });
@@ -50,6 +53,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
@@ -173,13 +179,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Models.DataGroup", b =>
                 {
-                    b.HasOne("Core.Models.mqtt.MqttClient", "MqttClient")
-                        .WithMany("DataGroups")
-                        .HasForeignKey("MqttClientId")
+                    b.HasOne("Core.Models.mqtt.MqttClient", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("MqttClient");
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("Core.Models.SensorData", b =>
@@ -233,11 +239,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Core.Models.mqtt.BrokerParpameters", b =>
                 {
                     b.Navigation("Clients");
-                });
-
-            modelBuilder.Entity("Core.Models.mqtt.MqttClient", b =>
-                {
-                    b.Navigation("DataGroups");
                 });
 
             modelBuilder.Entity("Core.Models.mqtt.TopicDefinition", b =>

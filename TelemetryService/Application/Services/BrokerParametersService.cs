@@ -29,6 +29,12 @@ namespace Application.Services
             }
         }
 
+        public async Task<IEnumerable<ResponseBrokerParametersDto>> GetAllAsync()
+        {
+            var brokers = await _repository.GetAllAsync();
+            return brokers.Select(x => x.ToResponse());
+        }
+
         public async Task<ResponseBrokerParametersDto> GetByAddressAsync(CreateBrokerParametersDto dto)
         {
             CheckParamters(dto);

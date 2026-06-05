@@ -4,7 +4,8 @@ namespace Application.Interfaces.Repositories
 {
     public interface ISensorDataRepository
     {
-        Task WrightAsync(SensorData data);
-        Task<List<SensorData>> ReadAllAsync();
+        Task SaveAsync(SensorData data);
+        Task SaveAsync(IEnumerable<SensorData> data);
+        Task<List<SensorData>> GetAllAsync();
     }
 }

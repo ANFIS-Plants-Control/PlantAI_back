@@ -8,6 +8,5 @@ namespace Application.Interfaces.Repositories
         public Task<IEnumerable<MqttClient>> GetAsync();
         public Task CreateSubscriptionAsync(MqttClient options);
         public Task<MqttClient> GetByClientIdAsync(string clientId);
-        public Task<IEnumerable<BrokerParpameters>> GetDashboardAsync();
     }
 }

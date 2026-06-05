@@ -19,9 +19,11 @@ namespace Infrastructure.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<TopicDefinition>> GetAllAsync()
+        public async Task<IEnumerable<TopicDefinition>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.TopicDefinitions
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<TopicDefinition> GetByIdAsync(int id)

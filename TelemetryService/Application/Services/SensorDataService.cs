@@ -15,15 +15,14 @@ namespace Application.Services
         }
         public async Task<IEnumerable<SensorDataResponseDto>> ReadAllAsync()
         {
-            List<SensorData> data = await _repository.ReadAllAsync();
+            List<SensorData> data = await _repository.GetAllAsync();
             var response = data.Select(x => x.ToResponseDto());
             return response;
         }
 
-        public async Task WriteAsync(CreateSensorDataDto dto)
+        public async Task SaveAsync(IEnumerable<CreateSensorDataDto> dto, int groupId)
         {
-            var entity = dto.ToEntity();
-            await _repository.WrightAsync(entity);
+            await _repository.SaveAsync(dto.Select(x => x.ToEntity(groupId)));
         }
     }
 }

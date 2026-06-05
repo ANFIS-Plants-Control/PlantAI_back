@@ -1,6 +1,12 @@
-﻿using Infrastructure.Extensions.mqtt;
+﻿using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Core.Models;
+using Infrastructure.Extensions.mqtt;
+using Microsoft.Extensions.DependencyInjection;
 using MQTTnet;
 using System.Text;
+using System.Text.Json;
+using TelemetryService.Application.DTOs.SensorData;
 
 namespace Infrastructure.MQTTSubscriber
 {
@@ -8,17 +14,34 @@ namespace Infrastructure.MQTTSubscriber
     {
 
         private List<IExtendedMqttClient> clients = new List<IExtendedMqttClient>();
+        private IServiceProvider _provider;
+        public MqttClientCollector(IServiceProvider provider)
+        {
+            _provider = provider;
+        }
 
         public IMqttClient CreateClient()
         {
             var factory = new MqttClientFactory();
             var client = factory.CreateMqttClient();
 
-            client.ApplicationMessageReceivedAsync += e =>
+            client.ApplicationMessageReceivedAsync += async e =>
             {
                 var payload = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-                Console.WriteLine($"[Received] Topic: {e.ApplicationMessage.Topic}, Message: {payload}");
-                return Task.CompletedTask;
+                var data = JsonSerializer.Deserialize<DataGroup>(payload);
+
+                using (var scope = _provider.CreateAsyncScope())
+                {
+                    var clientRepo = scope.ServiceProvider.GetRequiredService<IMqttClientsRepository>();
+                    var client = await clientRepo.GetByClientIdAsync(e.ClientId);
+
+                    var dataGroupService = scope.ServiceProvider.GetRequiredService<IDataGroupService>();
+                    var group = await dataGroupService.SaveAsync(client.Id);
+
+                    var sensorDataService = scope.ServiceProvider.GetRequiredService<ISensorDataService>();
+                    await sensorDataService.SaveAsync(data.SensorsData.Select(x => new CreateSensorDataDto(x.Value, x.SensorTypeId)), group.Id);
+                }
+                
             };
             return client;
         }

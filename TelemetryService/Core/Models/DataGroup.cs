@@ -1,10 +1,14 @@
-﻿namespace Core.Models
+﻿using Core.Models.mqtt;
+
+namespace Core.Models
 {
     public class DataGroup
     {
 
-        public int Id { get; init; }
-        public DateTime GroupDate { get; init; }
-        public IEnumerable<SensorData> SensorsData { get; init; }
+        public int Id { get; set; }
+        public DateTime GroupDate { get; set; }
+        public int MqttClientId { get; set; }
+        public IEnumerable<SensorData> SensorsData { get; set; }
+        public MqttClient MqttClient { get; set; }
     }
 }
