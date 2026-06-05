@@ -19,5 +19,11 @@ namespace TelemetryService.Controllers.MqttControllers
             var response = await _service.CreateAsync(topic);
             return response;
         }
+        [HttpGet]
+        public async Task<IActionResult> GetTopics()
+        {
+            var response = await _service.GetAllAsync();
+            return Ok(response);
+        }
     }
 }

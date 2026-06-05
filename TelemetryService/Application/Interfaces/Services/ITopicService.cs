@@ -6,6 +6,7 @@ namespace Application.Interfaces.Services
     {
 
         public Task<ResponseMqttTopic> CreateAsync(string topic);
+        public Task<IEnumerable<ResponseMqttTopic>> GetAllAsync();
 
     }
 }

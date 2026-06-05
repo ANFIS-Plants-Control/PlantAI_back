@@ -10,24 +10,25 @@ namespace Infrastructure.Services
     {
         private MqttClientCollector collector;
         private readonly IMqttClientsRepository _repository;
+        private readonly IBrokersParametersRepository _brokerRepository;
         private readonly ITopicRepository _topicRepository;
-        public MqttClientConnectionService(MqttClientCollector collector, IMqttClientsRepository repository, ITopicRepository topicRepository)
+        public MqttClientConnectionService(MqttClientCollector collector, IMqttClientsRepository repository, ITopicRepository topicRepository, IBrokersParametersRepository brokerRepository)
         {
             this.collector = collector;
             _repository = repository;
             _topicRepository = topicRepository;
+            _brokerRepository = brokerRepository;
         }
 
         public async Task SyncClientsAsync()
         {
-            var dashboards = await _repository.GetDashboardAsync();
-
-            foreach(var d in dashboards)
+            var brokers = await _brokerRepository.GetBrokersWithClientsAsync();
+            foreach (var broker in brokers)
             {
-                foreach(var c in d.Clients)
+                foreach(var client in broker.Clients)
                 {
-                    collector.DeleteClient(c.ClientId);
-                    await ConnectClientAsync(c.ClientId, d.Host, d.Port);
+                    collector.DeleteClient(client.ClientId);
+                    await ConnectClientAsync(client.ClientId, broker.Host, broker.Port);
                 }
             }
         }

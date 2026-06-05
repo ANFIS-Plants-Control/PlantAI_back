@@ -25,5 +25,11 @@ namespace Application.Services
             var response = await _repository.GetByTopicStringAsync(topic);
             return response.ToResponse();
         }
+
+        public async Task<IEnumerable<ResponseMqttTopic>> GetAllAsync()
+        {
+            var topics = await _repository.GetAllAsync();
+            return topics.Select(x => x.ToResponse());
+        }
     }
 }

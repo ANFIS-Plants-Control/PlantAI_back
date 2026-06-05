@@ -11,8 +11,6 @@ namespace Application.Utils.Mapping
         public static ResponseMqttClientDto ToResponse(this MqttClient model) 
             => new ResponseMqttClientDto(model.ClientId, model.TopicId, model.BrokerId, model.LastMessageDateTime);
         public static ReponseMqttClientWithTopicDto ToResponseWithTopic(this MqttClient model)
-            => new ReponseMqttClientWithTopicDto(model.ClientId, model.Topic.ToResponse(), model.LastMessageDateTime);
-        public static ResponseMqttDashboardDto ToDashboardResponse(this BrokerParpameters model)
-            => new ResponseMqttDashboardDto(model.Id, model.Host, model.Port, model.Clients.Select(x => x.ToResponseWithTopic()));
+            => new ReponseMqttClientWithTopicDto(model.Id, model.ClientId, model.Topic.ToResponse(), model.LastMessageDateTime);
     }
 }

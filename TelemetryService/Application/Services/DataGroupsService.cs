@@ -14,6 +14,12 @@ namespace Application.Services
             _repository = repository;
         }
 
+        public async Task<IEnumerable<ResponseDataGroupDto>> GetAllAsync()
+        {
+            var response = await _repository.GetAllGroupsAsync();
+            return response.Select(x => x.ToResponse());
+        }
+
         public async Task<ResponseDataGroupDto> SaveAsync(int MqttClientId)
         {
             DataGroup data = new DataGroup { GroupDate  = DateTime.UtcNow, MqttClientId = MqttClientId };

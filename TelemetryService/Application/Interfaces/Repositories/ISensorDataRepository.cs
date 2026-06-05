@@ -6,6 +6,6 @@ namespace Application.Interfaces.Repositories
     {
         Task SaveAsync(SensorData data);
         Task SaveAsync(IEnumerable<SensorData> data);
-        Task<List<SensorData>> ReadAllAsync();
+        Task<List<SensorData>> GetAllAsync();
     }
 }

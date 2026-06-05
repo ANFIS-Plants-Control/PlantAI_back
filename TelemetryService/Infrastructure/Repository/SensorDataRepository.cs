@@ -8,15 +8,15 @@ namespace Infrastructure.Repository
     public class SensorDataRepository : ISensorDataRepository
     {
         private readonly TelemetryDbContext _context;
+        private IQueryable<SensorData> _sensors;
         public SensorDataRepository(TelemetryDbContext context)
         {
             _context = context;
+            _sensors = _context.SensorsData.AsNoTracking();
         }
 
-        public async Task<List<SensorData>> ReadAllAsync() =>
-            await _context.SensorsData
-            .AsNoTracking()
-            .ToListAsync();
+        public async Task<List<SensorData>> GetAllAsync() =>
+            await _sensors.ToListAsync();
 
 
         public async Task SaveAsync(SensorData data)

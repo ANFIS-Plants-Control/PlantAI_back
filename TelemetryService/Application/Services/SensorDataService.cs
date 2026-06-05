@@ -15,7 +15,7 @@ namespace Application.Services
         }
         public async Task<IEnumerable<SensorDataResponseDto>> ReadAllAsync()
         {
-            List<SensorData> data = await _repository.ReadAllAsync();
+            List<SensorData> data = await _repository.GetAllAsync();
             var response = data.Select(x => x.ToResponseDto());
             return response;
         }

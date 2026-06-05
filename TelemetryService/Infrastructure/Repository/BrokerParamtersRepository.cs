@@ -26,6 +26,15 @@ namespace Infrastructure.Repository
                 .AsNoTracking()
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<BrokerParpameters>> GetBrokersWithClientsAsync()
+        {
+            return await _dbContext.BrokerParameters
+                .AsNoTracking()
+                .Include(x => x.Clients)
+                .ToListAsync();
+        }
+
         public async Task<BrokerParpameters> GetByAddressAsync(string host, int port)
         {
             return await _dbContext.BrokerParameters

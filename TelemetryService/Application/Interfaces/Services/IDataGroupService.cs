@@ -6,6 +6,7 @@ namespace Application.Interfaces.Services
     {
 
         Task<ResponseDataGroupDto> SaveAsync(int MqttClientId);
+        Task<IEnumerable<ResponseDataGroupDto>> GetAllAsync();
 
     }
 }
