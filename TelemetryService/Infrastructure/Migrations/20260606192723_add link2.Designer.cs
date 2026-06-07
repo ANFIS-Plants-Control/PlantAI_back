@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelemetryService.Infrastructure.Persistant;
@@ -11,9 +12,11 @@ using TelemetryService.Infrastructure.Persistant;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TelemetryDbContext))]
-    partial class TelemetryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260606192723_add link2")]
+    partial class addlink2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,14 +39,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("MqttClientId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TopicId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("MqttClientId");
-
-                    b.HasIndex("TopicId");
 
                     b.ToTable("DataGroups");
                 });
@@ -141,6 +139,9 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("LastMessageDateTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BrokerId");
@@ -191,15 +192,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Core.Models.mqtt.TopicDefinition", "Topic")
-                        .WithMany("DataGroups")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("MqttClient");
-
-                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("Core.Models.SensorData", b =>
@@ -263,11 +256,6 @@ namespace Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Core.Models.mqtt.MqttClient", b =>
-                {
-                    b.Navigation("DataGroups");
-                });
-
-            modelBuilder.Entity("Core.Models.mqtt.TopicDefinition", b =>
                 {
                     b.Navigation("DataGroups");
                 });

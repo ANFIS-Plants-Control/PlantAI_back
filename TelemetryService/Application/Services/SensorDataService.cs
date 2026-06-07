@@ -13,7 +13,7 @@ namespace Application.Services
         {
             _repository = repository;
         }
-        public async Task<IEnumerable<SensorDataResponseDto>> ReadAllAsync()
+        public async Task<IEnumerable<SensorDataResponseDto>> GetAllAsync()
         {
             List<SensorData> data = await _repository.GetAllAsync();
             var response = data.Select(x => x.ToResponseDto());

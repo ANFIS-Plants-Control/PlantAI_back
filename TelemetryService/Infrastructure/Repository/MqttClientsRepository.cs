@@ -8,38 +8,51 @@ namespace Infrastructure.Repository
     public class MqttClientsRepository : IMqttClientsRepository
     {
 
-        private readonly TelemetryDbContext context;
+        private readonly TelemetryDbContext _context;
         public MqttClientsRepository(TelemetryDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task CreateSubscriptionAsync(MqttClient subscription)
+        public async Task CreateClientAsync(MqttClient subscription)
         {
-            await context.MqttClients.AddAsync(subscription);
-            await context.SaveChangesAsync();
+            await _context.MqttClients.AddAsync(subscription);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<MqttClient>> GetAsync()
         {
-            return await context.MqttClients
+            return await _context.MqttClients
                 .AsNoTracking()
                 .ToListAsync();
         }
 
         public async Task<MqttClient> GetByClientIdAsync(string clientId)
         {
-            return await context.MqttClients
+            return await _context.MqttClients
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ClientId == clientId);
         }
 
-        public async Task<IEnumerable<BrokerParpameters>> GetDashboardAsync()
+        public async Task<MqttClient> GetByClientIdWithTopicsAsync(string clientId)
         {
-            return await context.BrokerParameters
+            return await _context.MqttClients
+                .Include(x => x.Topics)
+                .FirstOrDefaultAsync(x => x.ClientId == clientId);
+        }
+
+        public async Task<MqttClient> GetByIdAsync(int id)
+        {
+            return await _context.MqttClients
                 .AsNoTracking()
-                .Include(x => x.Clients)
-                    .ThenInclude(x => x.Topic)
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<MqttClient>> GetClientsWithTopicsAsync()
+        {
+            return await _context.MqttClients
+                .AsNoTracking()
+                .Include(x => x.Topics)
                 .ToListAsync();
         }
     }

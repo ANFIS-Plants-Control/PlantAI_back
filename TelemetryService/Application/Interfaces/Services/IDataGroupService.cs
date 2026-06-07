@@ -5,7 +5,7 @@ namespace Application.Interfaces.Services
     public interface IDataGroupService
     {
 
-        Task<ResponseDataGroupDto> SaveAsync(int MqttClientId);
+        Task<ResponseDataGroupDto> SaveAsync(int MqttClientId, int topicId);
         Task<IEnumerable<ResponseDataGroupDto>> GetAllAsync();
 
     }

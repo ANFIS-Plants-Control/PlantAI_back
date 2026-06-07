@@ -20,9 +20,9 @@ namespace Application.Services
             return response.Select(x => x.ToResponse());
         }
 
-        public async Task<ResponseDataGroupDto> SaveAsync(int MqttClientId)
+        public async Task<ResponseDataGroupDto> SaveAsync(int MqttClientId, int topicId)
         {
-            DataGroup data = new DataGroup { GroupDate  = DateTime.UtcNow, MqttClientId = MqttClientId };
+            DataGroup data = new DataGroup { GroupDate  = DateTime.UtcNow, MqttClientId = MqttClientId, TopicId = topicId };
             await _repository.SaveAsync(data);
             var entity = await _repository.GetLastGroupAsync();
             return entity.ToResponse();

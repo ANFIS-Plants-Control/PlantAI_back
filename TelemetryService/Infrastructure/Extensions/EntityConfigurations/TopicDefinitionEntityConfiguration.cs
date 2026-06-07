@@ -10,6 +10,9 @@ namespace Infrastructure.Extensions.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
 
+            builder.HasMany(x => x.Subscriptions)
+                .WithMany(x => x.Topics);
+
             builder.HasIndex(x => x.Topic)
                 .IsUnique(true);
         }
