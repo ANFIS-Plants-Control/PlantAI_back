@@ -29,6 +29,13 @@ namespace Infrastructure.Services
                 {
                     collector.DeleteClient(client.ClientId);
                     await ConnectClientAsync(client.ClientId, broker.Host, broker.Port);
+
+                    var connectedClient = collector.GetClientById(client.ClientId);
+                    var clientLinkTopics = await _repository.GetByClientIdWithTopicsAsync(client.ClientId);
+                    foreach (var topic in clientLinkTopics.Topics) 
+                    {
+                        await connectedClient.SubscribeAsync(topic.Topic);
+                    }
                 }
             }
         }

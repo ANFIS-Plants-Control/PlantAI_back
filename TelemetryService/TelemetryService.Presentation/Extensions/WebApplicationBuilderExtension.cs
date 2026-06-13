@@ -1,12 +1,7 @@
 using Application.Handlers;
-using Application.Interfaces.Mqtt;
-using Application.Interfaces.Repositories;
-using Application.Interfaces.Services;
-using Application.Services;
 using Infrastructure.MQTTSubscriber;
-using Infrastructure.Repository;
-using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using TelemetryService.Extensions;
 using TelemetryService.Infrastructure.Persistant;
 
 namespace TelemetryService.Extenstions
@@ -48,18 +43,8 @@ namespace TelemetryService.Extenstions
             builder.Services.AddSingleton<MqttClientCollector>();
             builder.Services.AddScoped<MqttClientHandler>();
 
-            builder.Services.AddScoped<ISensorDataRepository,  SensorDataRepository>();
-            builder.Services.AddScoped<ISensorDataService, SensorDataService>();
-            builder.Services.AddScoped<IDataGroupRepository, DataGroupRepository>();
-            builder.Services.AddScoped<IDataGroupService, DataGroupsService>();
-            builder.Services.AddScoped<IBrokersParametersRepository, BrokerParamtersRepository>();
-            builder.Services.AddScoped<IBrokerParametersService, BrokerParametersService>();
-            builder.Services.AddScoped<ITopicRepository, TopicRepository>();
-            builder.Services.AddScoped<ITopicService, TopicService>();
-            builder.Services.AddScoped<IMqttClientsRepository, MqttClientsRepository>();
-            builder.Services.AddScoped<IMqttClientsService, MqttClientsService>();
-            builder.Services.AddScoped<IMqttClientService, MqttClientConnectionService>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.ImplementServices();
+            builder.ImplementRepositories();
         }
     }
 }

@@ -7,9 +7,7 @@ namespace Application.Utils.Mapping
     public static class SensorDataMapping
     {
         public static SensorDataResponseDto ToResponseDto(this SensorData data)
-            => new SensorDataResponseDto(data.Id,
-                                      data.Value,
-                               data.SensorTypeId);
+            => new SensorDataResponseDto(data.Id, data.Value, data.SensorTypeId, data.GroupId);
 
         public static SensorData ToEntity(this CreateSensorDataDto dto, int goupId) =>
             new SensorData()

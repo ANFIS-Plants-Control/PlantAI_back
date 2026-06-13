@@ -15,6 +15,20 @@ namespace TelemetryService.Controllers
             _dataGroupService = dataGroupService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var data = await _sensorDataService.GetAllAsync();
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
         [HttpGet("data-groups")]
         public async Task<IActionResult> GetDataGroups()
         {
