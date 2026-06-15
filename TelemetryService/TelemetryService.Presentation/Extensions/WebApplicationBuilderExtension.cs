@@ -33,6 +33,7 @@ namespace TelemetryService.Extenstions
             string dbPassword = builder.Configuration["DbPassword"];
             string connectionStrign = builder.Configuration["TelemetryDbConnectionString"] + $"Password={dbPassword}";
 #endif
+            builder.Services.AddSignalR();
             builder.Services.AddSwaggerGen();
             builder.Services.AddControllers();
             builder.Services.AddOpenApi();
@@ -43,7 +44,7 @@ namespace TelemetryService.Extenstions
             builder.Services.AddSingleton<MqttClientCollector>();
             builder.Services.AddScoped<MqttClientHandler>();
 
-            builder.ImplementServices();
+            builder.ImplementCustomServices();
             builder.ImplementRepositories();
         }
     }

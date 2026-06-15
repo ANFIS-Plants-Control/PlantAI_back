@@ -7,7 +7,7 @@ namespace TelemetryService.Extensions
 {
     public static class DiServicesImplementation
     {
-        public static void ImplementServices(this WebApplicationBuilder builder)
+        public static void ImplementCustomServices(this WebApplicationBuilder builder)
         {
 
             builder.Services.AddScoped<ISensorDataService, SensorDataService>();
