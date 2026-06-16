@@ -1,4 +1,4 @@
 ﻿namespace Application.DTOs.MQTT.Clients
 {
-    public record SubscribeMqttClientDto(string clientId);
+    public record SubscribeMqttClientDto(string clientId, int topicId);
 }

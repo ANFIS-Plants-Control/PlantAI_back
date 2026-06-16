@@ -19,7 +19,7 @@ namespace TelemetryService.Controllers.MqttControllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMqttClients()
+        public async Task<IActionResult> Get()
         {
             try
             {
@@ -28,12 +28,12 @@ namespace TelemetryService.Controllers.MqttControllers
             }
             catch(Exception e)
             {
-                return BadRequest(e);
+                return StatusCode(500, e.Message);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateMqttClientDto dto)
+        public async Task<IActionResult> Create([FromBody]CreateMqttClientDto dto)
         {
             try
             {
@@ -42,7 +42,21 @@ namespace TelemetryService.Controllers.MqttControllers
             }
             catch (Exception e)
             {
-                throw new Exception(e.Message);
+                return StatusCode(500, e.Message);
+            }
+        }
+
+        [HttpGet("linked-topics")]
+        public async Task<IActionResult> GetMqttClientsWithTopics()
+        {
+            try 
+            {
+                var clients = await _clientService.GetMqttClientsWithTopicsAsync();
+                return Ok(clients);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
             }
         }
 
@@ -62,10 +76,11 @@ namespace TelemetryService.Controllers.MqttControllers
         }
 
         [HttpPost("subscribe")]
-        public async Task<IActionResult> Subscribe(SubscribeMqttClientDto dto)
+        public async Task<IActionResult> Subscribe([FromBody]SubscribeMqttClientDto dto)
         {
             try
             {
+                await _clientService.BindMqttClientTopicAsync(dto);
                 await _clientHandler.SybscribeClientAsync(dto);
                 return Ok();
             }

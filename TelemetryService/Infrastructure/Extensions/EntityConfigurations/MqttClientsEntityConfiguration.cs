@@ -10,9 +10,8 @@ namespace Infrastructure.Extensions.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(x => x.Topic)
-                .WithMany(x => x.Subscriptions)
-                .HasForeignKey(x => x.TopicId);
+            builder.HasMany(x => x.Topics)
+                .WithMany(x => x.Subscriptions);
         
             builder.HasOne(x => x.Broker)
                 .WithMany(x => x.Clients)

@@ -7,7 +7,7 @@ namespace Application.Utils.Mapping
     {
 
         public static ResponseDataGroupDto ToResponse(this DataGroup data)
-            => new ResponseDataGroupDto(data.Id, data.GroupDate, data.MqttClientId);
+            => new ResponseDataGroupDto(data.Id, data.GroupDate, data.MqttClientId, data.TopicId);
 
     }
 }

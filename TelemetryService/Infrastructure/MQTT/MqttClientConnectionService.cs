@@ -28,42 +28,54 @@ namespace Infrastructure.Services
                 foreach(var client in broker.Clients)
                 {
                     collector.DeleteClient(client.ClientId);
-                    await ConnectClientAsync(client.ClientId, broker.Host, broker.Port);
+                    if (await ConnectClientAsync(client.ClientId, broker.Host, broker.Port))
+                    {
+                        var connectedClient = collector.GetClientById(client.ClientId);
+                        var clientLinkTopics = await _repository.GetByClientIdWithTopicsAsync(client.ClientId);
+                        foreach (var topic in clientLinkTopics.Topics)
+                        {
+                            await connectedClient.SubscribeAsync(topic.Topic);
+                        }
+                    }
                 }
             }
         }
 
-        public async Task ConnectClientAsync(string clientId, string host, int port)
+        public async Task<bool> ConnectClientAsync(string clientId, string host, int port)
         {
-            var client = collector.CreateClient();
-
-            var options = new MqttClientOptionsBuilder()
-                .WithTcpServer(host, port)
-                .WithClientId(clientId)
-                .Build();
-            
             try
             {
-                await client.ConnectAsync(options);
+                var client = collector.CreateClient();
 
-                var extendedClient = new ExtendedMqttClient(client);
+                var options = new MqttClientOptionsBuilder()
+                    .WithTcpServer(host, port)
+                    .WithClientId(clientId)
+                    .Build();
 
-                collector.SaveClient(extendedClient);
+                var response = await client.ConnectAsync(options);
+                if (response.ResultCode == MqttClientConnectResultCode.Success)
+                {
+                    var extendedClient = new ExtendedMqttClient(client);
+
+                    collector.SaveClient(extendedClient);
+                }
+                return true;
             }
-            catch(Exception ex) 
+            catch(Exception ex)
             {
-                throw new Exception($"Broker on {host}:{port} not avialable");
+                return false;
             }
+           
         }
-        public async Task SubscribeAsync(string clientId)
+        public async Task SubscribeAsync(string clientId, int topicId)
         {
             var client = await _repository.GetByClientIdAsync(clientId);
             if (client == null)
                 throw new Exception($"Client {clientId} does not exists");
 
-            var topic = await _topicRepository.GetByIdAsync(client.TopicId);
+            var topic = await _topicRepository.GetByIdAsync(topicId);
             if (topic == null)
-                throw new Exception($"Topic with id {client.TopicId} is not exists");
+                throw new Exception($"Topic with id {topicId} is not exists");
             
             var collectedClient = collector.GetClientById(clientId);
             await collectedClient.SubscribeAsync(topic.Topic);

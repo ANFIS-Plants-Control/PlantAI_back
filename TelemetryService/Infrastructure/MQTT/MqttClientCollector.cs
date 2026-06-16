@@ -32,11 +32,14 @@ namespace Infrastructure.MQTTSubscriber
 
                 using (var scope = _provider.CreateAsyncScope())
                 {
+                    var topicRepository = scope.ServiceProvider.GetRequiredService<ITopicRepository>();
+                    var topic = await topicRepository.GetByTopicStringAsync(e.ApplicationMessage.Topic);
+
                     var clientRepo = scope.ServiceProvider.GetRequiredService<IMqttClientsRepository>();
                     var client = await clientRepo.GetByClientIdAsync(e.ClientId);
 
                     var dataGroupService = scope.ServiceProvider.GetRequiredService<IDataGroupService>();
-                    var group = await dataGroupService.SaveAsync(client.Id);
+                    var group = await dataGroupService.SaveAsync(client.Id, topic.Id);
 
                     var sensorDataService = scope.ServiceProvider.GetRequiredService<ISensorDataService>();
                     await sensorDataService.SaveAsync(data.SensorsData.Select(x => new CreateSensorDataDto(x.Value, x.SensorTypeId)), group.Id);
@@ -54,7 +57,7 @@ namespace Infrastructure.MQTTSubscriber
         public IExtendedMqttClient GetClientById(string clientId)
         {
             var client = clients.FirstOrDefault(c => c.Options.ClientId == clientId);
-            if (client == null) throw new Exception("Client not exist");
+            if (client == null) throw new Exception($"Client {clientId} not connected");
             
             return client;
         }

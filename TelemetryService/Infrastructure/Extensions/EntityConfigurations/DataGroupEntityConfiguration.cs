@@ -13,6 +13,10 @@ namespace Infrastructure.Extensions.EntityConfigurations
             builder.HasOne(x => x.MqttClient)
                 .WithMany(x => x.DataGroups)
                 .HasForeignKey(x => x.MqttClientId);
+
+            builder.HasOne(x => x.Topic)
+                .WithMany(x => x.DataGroups)
+                .HasForeignKey(x => x.TopicId);
         }
     }
 }

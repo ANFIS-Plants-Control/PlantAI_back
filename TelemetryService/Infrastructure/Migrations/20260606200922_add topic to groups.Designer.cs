@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TelemetryService.Infrastructure.Persistant;
@@ -11,9 +12,11 @@ using TelemetryService.Infrastructure.Persistant;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(TelemetryDbContext))]
-    partial class TelemetryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260606200922_add topic to groups")]
+    partial class addtopictogroups
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,6 +143,9 @@ namespace Infrastructure.Migrations
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("LastMessageDateTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
