@@ -12,7 +12,8 @@ namespace Infrastructure.Extensions.EntityConfigurations
 
             builder.HasData([
                 new SensorType{Id = 1, TypeName="Temperature"},
-                new SensorType{Id = 2, TypeName="Humidity"}
+                new SensorType{Id = 2, TypeName="Humidity"},
+                new SensorType{Id = 3, TypeName="CO2"}
             ]);
         }
     }

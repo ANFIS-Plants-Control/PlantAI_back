@@ -13,7 +13,7 @@ services:
   auth:
     image: auth:latest
     ports:
-      - "8080:8080"
+      - "8082:8080"
     depends_on:
       - db
     secrets:
@@ -24,6 +24,11 @@ services:
     image: broker:latest
     ports:
       - "1883:1883"
+
+  plantAi:
+    image: plantai:latest
+    ports:
+      - "8080:8080"
 
   telemetry:
     image: telemetry:latest

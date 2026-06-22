@@ -42,5 +42,20 @@ namespace TelemetryService.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("last-sensor-datas")]
+        public async Task<IActionResult> GetLastSensorDatas()
+        {
+            try
+            {
+
+                var data = await _sensorDataService.GetLastDataAsync();
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
     }
 }

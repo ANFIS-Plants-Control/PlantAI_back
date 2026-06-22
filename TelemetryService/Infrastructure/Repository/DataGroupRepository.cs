@@ -30,6 +30,11 @@ namespace Infrastructure.Repository
                 .FirstOrDefaultAsync();
         }
 
+        public Task<DataGroup> GetLastGroupdSensorDataAsync() 
+            => _dataGroups.Include(x => x.SensorsData)
+                    .OrderByDescending(g => g.GroupDate)
+                    .FirstOrDefaultAsync();
+
         public async Task SaveAsync(DataGroup data)
         {
             await _context.DataGroups.AddAsync(data);

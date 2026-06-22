@@ -16,8 +16,7 @@ namespace Infrastructure.Repository
         }
 
         public async Task<List<SensorData>> GetAllAsync() =>
-            await _sensors.ToListAsync();
-
+            await _sensors.ToListAsync();        
 
         public async Task SaveAsync(SensorData data)
         {
