@@ -5,7 +5,7 @@ namespace Application.Interfaces.SensorData
     public interface ISensorDataService
     {
 
-        Task<ClimatStatusDto> GetClimatStatus();
+        Task<ClimatStatusDto?> GetClimatStatus();
 
     }
 }

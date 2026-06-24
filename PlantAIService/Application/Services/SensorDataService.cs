@@ -1,7 +1,7 @@
-﻿using Application.DTOs;
+﻿using System.Text.Json;
+using Application.DTOs;
 using Application.Extensions;
 using Application.Interfaces.SensorData;
-using System.Text.Json;
 
 namespace Application.Services
 {
@@ -13,11 +13,11 @@ namespace Application.Services
             _sensorDataProvider = sensorDataProvider;
         }
 
-        public async Task<ClimatStatusDto> GetClimatStatus()
+        public async Task<ClimatStatusDto?> GetClimatStatus()
         {
             var content = await _sensorDataProvider.GetSensorDataAsync();
             var data = JsonSerializer.Deserialize<List<SensorDataDto>>(content);
-            var climateStatus = data.DataGroupToClimatStatus();
+            var climateStatus = data?.DataGroupToClimatStatus();
             return climateStatus;
         }
     }

@@ -1,6 +1,10 @@
-﻿using Infrastructure.Persistant;
+﻿using System.Net;
+using Application.Interfaces.Repositories;
+using Application.Interfaces.Services;
+using Application.Services;
+using Infrastructure.Persistant;
+using Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace PlantAIService.Extensions
 {
@@ -33,6 +37,9 @@ namespace PlantAIService.Extensions
 #endif
 
             builder.Services.AddDbContext<PlantAIDbContext>(cnt => cnt.UseNpgsql(connectionStrign));
+
+            builder.Services.AddScoped<IFnnAnswerRepository, FnnAnswerRepository>();
+            builder.Services.AddScoped<IFnnAnswerService, FnnAnswerService>();
 
             builder.Services.AddOpenApi();
             builder.Services.AddGrpc();

@@ -1,3 +1,4 @@
+using Infrastructure.Hubs;
 using Infrastructure.Persistant;
 using Microsoft.EntityFrameworkCore;
 using PlantAIService.Extensions;
@@ -30,6 +31,8 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
     }
 }
+
+app.MapHub<AnfisHub>("/anfisSoket");
 
 app.UseHttpsRedirection();
 

@@ -48,6 +48,14 @@ services:
       - DbPassword
       - TelemetryDbConnectionString
 
+  front:
+    image: front:latest
+    ports:
+      - "443:443"
+    depends_on:
+      - main
+      - telemetry
+
 secrets:
   SecretKey:
     external: true
