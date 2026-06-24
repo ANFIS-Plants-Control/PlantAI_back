@@ -1,3 +1,4 @@
+using Infrastructure.Hubs;
 using Microsoft.EntityFrameworkCore;
 using TelemetryService.Extenstions;
 using TelemetryService.Infrastructure.Persistant;
@@ -31,5 +32,6 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+app.MapHub<SensorsDataHub>("/sensorDataSoket");
 
 app.Run();

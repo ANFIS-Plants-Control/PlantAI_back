@@ -20,15 +20,23 @@ services:
   #     - AuthDbConnectionString
   #     - SecretKey
   #     - DbPassword
-  # broker:
-  #   image: broker:latest
-  #   ports:
-  #     - "1883:1883"
+  broker:
+    image: broker:latest
+    ports:
+      - "1883:1883"
 
-  # plantAi:
-  #   image: plantai:latest
-  #   ports:
-  #     - "8080:8080"
+  main:
+    image: main:latest
+    ports:
+      - "8080:8080"
+    secrets:
+      - DbPassword
+      - PlantAIDbConnectionString
+
+  worker:
+    image: worker:latest
+    ports:
+      - "50051:50051"
 
   telemetry:
     image: telemetry:latest
@@ -48,4 +56,6 @@ secrets:
   AuthDbConnectionString:
     external: true
   TelemetryDbConnectionString:
+    external: true
+  PlantAIDbConnectionString:
     external: true

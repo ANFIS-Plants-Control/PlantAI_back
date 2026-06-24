@@ -9,5 +9,8 @@ namespace Application.Extensions
         public static ControlElement ToEntity(this ControlElementCreateDto dto)
             => new ControlElement() { Name = dto.Name, Location = dto.Location, Description = dto.Description };
 
+        public static ResponseControlElementDto ToResponseDto(this ControlElement entity)
+            => new ResponseControlElementDto(entity.Id, entity.Name, entity.Location, entity.Description);
+
     }
 }

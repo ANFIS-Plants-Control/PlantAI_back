@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Infrastructure.Persistant;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace PlantAIService.Extensions
@@ -8,6 +9,30 @@ namespace PlantAIService.Extensions
 
         public static void ImplementBuilderServices(this WebApplicationBuilder builder)
         {
+            builder.Services.AddCors(options =>
+            {
+                const string corsName = "PlantAI_Front";
+
+                options.AddPolicy(
+                    name: corsName,
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+#if DEBUG
+            string connectionStrign = builder.Configuration.GetConnectionString("devConnection");
+#else
+            builder.Configuration.AddKeyPerFile(directoryPath: "/run/secrets", optional: true);
+
+            string dbPassword = builder.Configuration["DbPassword"];
+            string connectionStrign = builder.Configuration["PlantAIDbConnectionString"] + $"Password={dbPassword}";
+#endif
+
+            builder.Services.AddDbContext<PlantAIDbContext>(cnt => cnt.UseNpgsql(connectionStrign));
 
             builder.Services.AddOpenApi();
             builder.Services.AddGrpc();
@@ -18,10 +43,13 @@ namespace PlantAIService.Extensions
             builder.Services.AddGrpcClient<Infrastructure.AiServices.Anfis.NetAnswer.NetAnswerClient>(options =>
             {
                 HttpClient.DefaultProxy = new WebProxy();
-                options.Address = new Uri("http://localhost:50051");
+                options.Address = new Uri("http://worker:50051");
             });
 
-            builder.Services.AddScoped<TelemetryService>(builder => new TelemetryService("http://plantai-telemetry:8081"));
+            builder.Services.AddHttpClient("Telemetry", options =>
+            {
+                options.BaseAddress = new Uri("http://telemetry:8080/api/");
+            });
         }
 
     }

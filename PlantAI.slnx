@@ -15,7 +15,12 @@
   <Folder Name="/PlantAIService/PlantAIService.Presentation/">
     <Project Path="PlantAIService/PlantAIService.Presentation/PlantAIService.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".gitignore" />
+    <File Path="docker-compose.yml" />
+  </Folder>
   <Folder Name="/TelemetryService/">
+    <File Path="TelemetryService/Dockerfile" />
     <Project Path="TelemetryService/Application/Application.csproj" />
     <Project Path="TelemetryService/Core/Core.csproj" />
     <Project Path="TelemetryService/Infrastructure/Infrastructure.csproj" />

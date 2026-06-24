@@ -65,8 +65,8 @@ namespace TelemetryService.Controllers.MqttControllers
         {
             try
             {
-                await _clientHandler.SyncClientAsync();
-                return Ok(new { Message = "All existed clients connected" });
+                var data = await _clientHandler.SyncClientAsync();
+                return Ok(data);
             }
             catch(Exception e)
             {

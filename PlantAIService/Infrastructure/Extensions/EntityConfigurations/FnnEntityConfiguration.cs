@@ -10,7 +10,8 @@ namespace Infrastructure.Extensions.EntityConfigurations
         {
             builder.HasKey(f => f.Id);
             builder.HasOne(f => f.ControlElement)
-                .WithOne(x => x.Fnn);
+                .WithOne(x => x.Fnn)
+                .HasForeignKey<Fnn>(x => x.ControlId);
         }
     }
 }
