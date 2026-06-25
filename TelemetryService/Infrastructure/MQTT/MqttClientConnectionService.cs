@@ -20,9 +20,10 @@ namespace Infrastructure.Services
             _brokerRepository = brokerRepository;
         }
 
-        public async Task SyncClientsAsync()
+        public async Task<List<string>> SyncClientsAsync()
         {
             var brokers = await _brokerRepository.GetBrokersWithClientsAsync();
+            List<string> connectedClients = new List<string>();
             foreach (var broker in brokers)
             {
                 foreach(var client in broker.Clients)
@@ -30,6 +31,7 @@ namespace Infrastructure.Services
                     collector.DeleteClient(client.ClientId);
                     if (await ConnectClientAsync(client.ClientId, broker.Host, broker.Port))
                     {
+                        connectedClients.Add(client.ClientId);
                         var connectedClient = collector.GetClientById(client.ClientId);
                         var clientLinkTopics = await _repository.GetByClientIdWithTopicsAsync(client.ClientId);
                         foreach (var topic in clientLinkTopics.Topics)
@@ -39,6 +41,7 @@ namespace Infrastructure.Services
                     }
                 }
             }
+            return connectedClients;
         }
 
         public async Task<bool> ConnectClientAsync(string clientId, string host, int port)
@@ -56,7 +59,7 @@ namespace Infrastructure.Services
                 if (response.ResultCode == MqttClientConnectResultCode.Success)
                 {
                     var extendedClient = new ExtendedMqttClient(client);
-
+                    Console.WriteLine(extendedClient.IsConnected);
                     collector.SaveClient(extendedClient);
                 }
                 return true;

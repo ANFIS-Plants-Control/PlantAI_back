@@ -10,25 +10,33 @@ services:
         mode: host
     secrets:
       - DbPassword
-  auth:
-    image: auth:latest
-    ports:
-      - "8082:8080"
-    depends_on:
-      - db
-    secrets:
-      - AuthDbConnectionString
-      - SecretKey
-      - DbPassword
+  # auth:
+  #   image: auth:latest
+  #   ports:
+  #     - "8082:8080"
+  #   depends_on:
+  #     - db
+  #   secrets:
+  #     - AuthDbConnectionString
+  #     - SecretKey
+  #     - DbPassword
   broker:
     image: broker:latest
     ports:
       - "1883:1883"
 
-  plantAi:
-    image: plantai:latest
+  main:
+    image: main:latest
     ports:
       - "8080:8080"
+    secrets:
+      - DbPassword
+      - PlantAIDbConnectionString
+
+  worker:
+    image: worker:latest
+    ports:
+      - "50051:50051"
 
   telemetry:
     image: telemetry:latest
@@ -40,6 +48,14 @@ services:
       - DbPassword
       - TelemetryDbConnectionString
 
+  front:
+    image: front:latest
+    ports:
+      - "443:443"
+    depends_on:
+      - main
+      - telemetry
+
 secrets:
   SecretKey:
     external: true
@@ -48,4 +64,6 @@ secrets:
   AuthDbConnectionString:
     external: true
   TelemetryDbConnectionString:
+    external: true
+  PlantAIDbConnectionString:
     external: true

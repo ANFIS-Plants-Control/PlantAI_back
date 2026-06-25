@@ -13,9 +13,9 @@ namespace Application.Handlers
             _service = service;
         }
 
-        public async Task SyncClientAsync()
+        public async Task<List<string>> SyncClientAsync()
         {
-            await _service.SyncClientsAsync();
+            return await _service.SyncClientsAsync();
         }
 
         public async Task ConnectClientAsync(ConnectMqttClientDto dto)

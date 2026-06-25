@@ -5,6 +5,7 @@ using Infrastructure.Extensions.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace TelemetryService.Infrastructure.Persistant;
+
 public class TelemetryDbContext : DbContext
 {
 
@@ -19,7 +20,8 @@ public class TelemetryDbContext : DbContext
 
     }
 
-    protected override void OnModelCreating(ModelBuilder builder){
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
         base.OnModelCreating(builder);
 
         builder.ApplyConfiguration(new SensorDataEntityConfituration());

@@ -2,6 +2,8 @@
 using Application.Interfaces.Services;
 using Core.Models;
 using Infrastructure.Extensions.mqtt;
+using Infrastructure.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using MQTTnet;
 using System.Text;
@@ -43,6 +45,9 @@ namespace Infrastructure.MQTTSubscriber
 
                     var sensorDataService = scope.ServiceProvider.GetRequiredService<ISensorDataService>();
                     await sensorDataService.SaveAsync(data.SensorsData.Select(x => new CreateSensorDataDto(x.Value, x.SensorTypeId)), group.Id);
+
+                    var hubContext = scope.ServiceProvider.GetRequiredService<IHubContext<SensorsDataHub>>();
+                    await hubContext.Clients.All.SendAsync("Receive", data);
                 }
                 
             };

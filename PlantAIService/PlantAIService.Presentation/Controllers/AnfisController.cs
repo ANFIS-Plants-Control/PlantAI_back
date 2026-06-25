@@ -1,8 +1,8 @@
-﻿using Application.Extensions;
-using Infrastructure;
-using Infrastructure.AiServices.Anfis;
+﻿using Application.DTOs.FnnAnswerDTOs;
+using Application.Interfaces.Anfis;
+using Application.Interfaces.SensorData;
+using Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
 
 namespace PlantAIService.Controllers
 {
@@ -10,12 +10,15 @@ namespace PlantAIService.Controllers
     [Route("api/[controller]")]
     public class AnfisController : Controller
     {
-        private NetAnswer.NetAnswerClient _client;
-        private TelemetryService _telemetryService;
-        public AnfisController(NetAnswer.NetAnswerClient client, TelemetryService telemetryService)
+        private ISensorDataService _sensorDataService;
+        private IAnfisAnswerProvider _anfisAnswerProvider;
+        private readonly IFnnAnswerService _fnnAnswerService;
+
+        public AnfisController(IAnfisAnswerProvider anfisAnswerProvider, ISensorDataService sensorDataService, IFnnAnswerService fnnAnswerService)
         {
-            _client = client;
-            _telemetryService = telemetryService;
+            _anfisAnswerProvider = anfisAnswerProvider;
+            _sensorDataService = sensorDataService;
+            _fnnAnswerService = fnnAnswerService;
         }
 
         [HttpGet]
@@ -23,16 +26,15 @@ namespace PlantAIService.Controllers
         {
             try
             {
-                var data = await _telemetryService.GetLastDatasAsync();
-                var climateStatus = data.DataGroupToClimatStatus();
-                var netAnswer = await _client.GetNetAnswerAsync(new SensorDatas() { Temperature = climateStatus.temperature, Humidity = climateStatus.humidity, Co2 = climateStatus.co2 });
-                return Ok(netAnswer);
+                var climateStatus = await _sensorDataService.GetClimatStatus();
+                var ans = await _anfisAnswerProvider.GetNetAnswer(climateStatus);
+                await _fnnAnswerService.CreateAsync(new FnnAnswerCreateDto(1, climateStatus.DataGroupId, 1, ans, DateTime.UtcNow));
+                return Ok(ans);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
-
         }
     }
 }

@@ -9,7 +9,7 @@
         public int UserId { get; set; }
         public int Answer { get; set; }
         public DateTime DateTime { get; set; }
-        public Fnn Fnn { get; set; }
+        public Fnn? Fnn { get; set; }
 
     }
 }

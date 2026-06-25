@@ -100,6 +100,11 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             TypeName = "Humidity"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            TypeName = "CO2"
                         });
                 });
 
